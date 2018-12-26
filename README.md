@@ -7,7 +7,7 @@ Vole is heavily influenced by Yii 2, I appreciate the structual guidelines howev
 When I began writing Vole I intended on a MVC system, I have now decided that I don't want to add the models directly into the structure. I intend on releasing models as an extension to vole ( Configured in config/config.php or other main config ) as they are wholly required for majority uses of Vole.
 
 - [x] Command line actions
-- [ ]  Model -> Controller -> View ( Dismissed as goal, Models will be extension )
+- [ ]  Model -> Controller -> View **( Dismissed as goal, Models will be extension )**
 - [x] Global objects ( Register in config )
 - [ ] Pretty URL routing
 - [ ] Html templating ( ?? Moustache brackets  ?? )
