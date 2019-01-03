@@ -4,9 +4,58 @@ require __DIR__ . '/BaseVole.php';
 
 class Vole extends \vole\BaseVole
 {
+    //
+    ////    PUBLIC
+    public static function Redirect( $route=NULL )
+    {
+        if( is_null( $route ) ) { throw new Exception( "Attempt to set route to NULL" ); }
+        self::redirect( $route );
+    }
+    public static function SetRoute( $route=NULL )
+    {
+        if( is_null( $route ) ) { throw new Exception( "Attempt to set route to NULL" ); }
+        self::_setRoute( $route );
+    }
+    public static function Run()
+    {
+        return self::_run();
+    }
 
-
-
+    //
+    ////    PRIVATE
+    private static function _redirect( $route )
+    {
+        Vole::SetRoute( $route );
+        return Vole::Run();
+    }
+    private static function _setRoute( $route )
+    {
+        Vole::$system->Route = $route;
+        $breaker = strpos( Vole::$system->Route, "/" ); 
+        Vole::$system->Controller 
+            = ucwords( 
+                substr( Vole::$system->Route, 0, $breaker )
+            );
+        Vole::$system->Action 
+            = ucwords( 
+                substr( 
+                    Vole::$system->Route, $breaker + 1,
+                    strlen( Vole::$system->Route ) - $breaker
+                )
+            );
+    }
+    private static function _run()
+    {
+        ob_start();
+        ob_end_clean();
+        ob_start();
+        echo ( ( new Vole::$system->Config->core->router->class )
+            ->Route() );
+        ob_flush();
+        exit;
+    }
+    //  @note The controller corresponding to the route must be loaded when route is set.
+    //  @note Route cannot be loaded at time it is set, may be route, asset or error.
 }
 
 define("SCANDIR_ALL", 0);

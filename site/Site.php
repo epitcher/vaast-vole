@@ -19,5 +19,9 @@ class Site extends Controller
     {
         return "Contact page";
     }
+    public function actionError()
+    {
+        return "This is an error page.";
+    }
 
 }

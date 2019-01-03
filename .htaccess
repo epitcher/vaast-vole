@@ -1,6 +1,6 @@
 RewriteEngine on
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d 
+# Web accessible directory ( By default /web/ ) control will be handled in PHP app
 
-RewriteRule . web/index.php
+# Rewrite all to be processed through web application.
+RewriteRule . web/index.php [L]

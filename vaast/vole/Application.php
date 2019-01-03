@@ -19,7 +19,7 @@ class Application
         Vole::$system = (object)[];
 
         Vole::$system->Console = VOLE_CONSOLE;
-        Vole::$system->Config = $config;
+        Vole::$system->Config = json_decode( json_encode( $config, FALSE ) );
     }
 
     public function run()
@@ -30,9 +30,11 @@ class Application
         $this->loadController();
         $this->route();
         //  @important "route" will exit process unless path is not found
-        $this->routeFailure();
+        //  @important route failure now handled in Router.
+        // $this->routeFailure();
     }
 
+    //  @important Intiail pass over route- Determines where route is sourced from.
     private function setup()
     {
         if( Vole::$system->Console )
@@ -138,6 +140,11 @@ class Application
 
     private function route()
     {
+        Vole::Run();
+    }
+/*
+    private function route()
+    {
         require_once(
             VOLE_ROOT . Vole::$system->Controllers . "/" . Vole::$system->Controller . ".php"
         );
@@ -156,6 +163,7 @@ class Application
         if( Vole::$system->Console ) { endln(); }
         exit;
     }
+*/
 
     private function routeFailure()
     {

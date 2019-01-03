@@ -1,13 +1,18 @@
 <?php
 
 $config = [
+    "assets" => [
+        "/web",
+    ],
+    "error" => "site/error",
     "core" => [
         "router" => [
-            "class" => "\vole\Router",
+            "class" => "\\vole\\Router",
         ]
     ],
     "routes" => [
-        "index" => "site/index",    //  @note [URl]/index => controller/Site.php->actionIndex
+        "/" => "site/index",
+        "/index" => "site/index",    //  @note [URl]/index => controller/Site.php->actionIndex
     ],
     "extensions" => [
         
