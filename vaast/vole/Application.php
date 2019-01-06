@@ -27,7 +27,7 @@ class Application
         $this->setup();
         $this->loadBase();
         $this->loadCore();
-        $this->loadController();
+        // $this->loadController();
         $this->route();
         //  @important "route" will exit process unless path is not found
         //  @important route failure now handled in Router.

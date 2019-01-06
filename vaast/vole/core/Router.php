@@ -37,6 +37,12 @@ class Router extends BaseRouter
     //  @note Does not check if asset exists, only checks if route conforms to asset form.
     private function _isAsset()
     {
+        if( is_file( VOLE_ROOT . "//web//" . Vole::$system->Route ) )
+        {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
         $assetLocated=FALSE;
         foreach( Vole::$system->Config->assets as $assetLoc )
         {
@@ -49,9 +55,10 @@ class Router extends BaseRouter
     }
     private function _doAsset()
     {
-        $file = VOLE_ROOT . "/" . Vole::$system->Route;
+        $file = VOLE_ROOT . "//web//" . Vole::$system->Route;
         if( is_file( $file ) )
         {
+            header( 'Content-Type: ' . mime_content_type( $file ) );
             return file_get_contents( $file );
         }
         $this->_doError();
@@ -60,6 +67,7 @@ class Router extends BaseRouter
     //  @section Routes
     private function _isRoute()
     {
+        Vole::SetRoute( Vole::$system->Route );
         if( 
             !is_file( 
                 VOLE_ROOT
