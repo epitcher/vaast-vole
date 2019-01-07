@@ -43,15 +43,6 @@ class Router extends BaseRouter
         } else {
             return FALSE;
         }
-        $assetLocated=FALSE;
-        foreach( Vole::$system->Config->assets as $assetLoc )
-        {
-            if( strpos( $assetLoc, Vole::$system->Controller ) !== FALSE )
-            {
-                $assetLocated = TRUE;
-            }
-        }
-        return $assetLocated;
     }
     private function _doAsset()
     {
@@ -67,6 +58,20 @@ class Router extends BaseRouter
     //  @section Routes
     private function _isRoute()
     {
+        //  @note The problem here is the route currently drops the root forward slash.
+        foreach( Vole::$system->Config->routes as $map => $route )
+        {
+            //  @important Only an exact match will map
+            if( "/" . Vole::$system->Route == $map )
+            {
+                Vole::SetRoute( $route );
+            }
+        }
+        // if( property_exists( Vole::$system->Config->routes, Vole::$system->Route ) )
+        // {
+        //     println( Vole::$system->Route );
+        //     Vole::SetRoute( Vole::$system->Config->routes[ Vole::$system->Route ] );
+        // }
         Vole::SetRoute( Vole::$system->Route );
         if( 
             !is_file( 
