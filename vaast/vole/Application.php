@@ -27,6 +27,7 @@ class Application
         $this->setup();
         $this->loadBase();
         $this->loadCore();
+        $this->loadExtensions();
         $this->route();
     }
 
@@ -68,6 +69,18 @@ class Application
     private function loadCore()
     {
         require_all( __DIR__ . "//core//" );
+    }
+    private function loadExtensions()
+    {
+        //  @important Does not take into account Extensions being configured but not existing.
+        foreach( Vole::$system->Config->extensions as $extension => $obj )
+        {
+            $file = VOLE_ROOT . "extensions//" . $extension . ".php";
+            if( !is_file( $file ) ) { continue; }
+            require( $file );
+            $f = "\\vole\\Extension\\" . $extension;
+            Vole::$app->{$extension} = new $f;
+        }
     }
 
     private function route()
