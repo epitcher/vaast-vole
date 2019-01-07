@@ -11,7 +11,7 @@ When I began writing Vole I intended on a MVC system, I have now decided that I 
 - [x] Command line actions
 - [ ]  Model -> Controller -> View **( Dismissed as goal, Models will be extension )**
 - [x] Global objects ( Register in config )
-- [ ] Pretty URL routing
+- [x] Pretty URL routing
 - [ ] Html templating ( ?? Moustache brackets  ?? )
 
 This repo contains a working Vole app, the original application structure wrapped around vole-core.
