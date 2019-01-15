@@ -78,7 +78,7 @@ class Application
             $file = VOLE_ROOT . "extensions//" . $extension . ".php";
             if( !is_file( $file ) ) { continue; }
             require( $file );
-            $f = "\\vole\\Extension\\" . $extension;
+            $f = "\\app\\Extension\\" . $extension;
             Vole::$app->{$extension} = new $f;
         }
     }
