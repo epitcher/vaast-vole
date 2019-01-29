@@ -10,7 +10,7 @@ class Router extends BaseRouter
 
     public function __construct()
     {
-
+        Vole::$system->Params = [];
     }
     public static function Error( $error=404 )
     {
@@ -56,22 +56,84 @@ class Router extends BaseRouter
     }
 
     //  @section Routes
-    private function _isRoute()
+    private function _parseRoute()
     {
-        //  @note The problem here is the route currently drops the root forward slash.
+        //  @important For rapid development leave simple routing to string comparison, move to array comp if variables found.
+        //  @note This checks for exact route matches.
         foreach( Vole::$system->Config->routes as $map => $route )
         {
-            //  @important Only an exact match will map
-            if( "/" . Vole::$system->Route == $map )
+            if( Vole::$system->Route == $map )
             {
                 Vole::SetRoute( $route );
+                //  @note If a route is found ends method execution.
+                return;
             }
         }
-        // if( property_exists( Vole::$system->Config->routes, Vole::$system->Route ) )
-        // {
-        //     println( Vole::$system->Route );
-        //     Vole::SetRoute( Vole::$system->Config->routes[ Vole::$system->Route ] );
-        // }
+
+        //  @note If no route match has been found move onto variable search.
+        
+        $inputStack = explode( "/", Vole::$system->Route );
+        //  @note Route stack must be loaded, then overriden.
+        $routeStack = explode( "/", $map );
+        $varStack = [];
+
+        foreach( $routeStack as $index => $part )
+        {
+            if( !array_key_exists( $index, $inputStack ) ) { continue; }
+            $is_var=[];
+            preg_match( "/{{(.*?)}}/", $part, $is_var );
+            if( count( $is_var ) == 0 ) { continue; }
+            array_push( $varStack, $inputStack[ $index ] );
+            
+            //  @important This should be a temp fix.
+            if( is_null( $inputStack[ $index ] ) || !(strlen( $inputStack[ $index ] ) > 0) ) { continue; }
+            $inputStack[ $index ] = "###";
+        }
+        //  @note Proceed with array comparison matching at this point ( <###> to be treated as wildcard )
+
+        //  @note Cycle through all configured routes.
+        foreach( Vole::$system->Config->routes as $map => $route )
+        {
+            $tempStack = explode( "/", $map );
+
+            $failure = FALSE;
+
+            //  @note This loop is to compare is route components are equalised.
+            foreach( $tempStack as $index => $val )
+            {
+                if( !array_key_exists( $index, $inputStack ) ) { continue; }
+                if( count( $inputStack ) != count( $tempStack ) ) { $failure = TRUE; }
+                if( 
+                    ($val != $inputStack[ $index ])
+                    &&
+                    ($inputStack[ $index ] != "###") 
+                )
+                {
+                    $failure = TRUE;
+                }
+
+            }
+
+            if( $failure ) { continue; }
+
+            foreach( array_reverse( $varStack ) as $var )
+            {
+                array_unshift( Vole::$system->Params, $var );   
+            }
+
+            Vole::SetRoute( $route );
+
+            return;
+        }
+
+
+        return;
+    }
+    private function _isRoute()
+    {
+        Vole::$system->Uri = Vole::$system->Route;
+        $this->_parseRoute();
+
         Vole::SetRoute( Vole::$system->Route );
         if( 
             !is_file( 

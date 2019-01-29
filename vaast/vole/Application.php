@@ -53,7 +53,7 @@ class Application
     private function setup_cgi()
     {
         Vole::$system->Controllers = "site";
-        Vole::SetRoute( substr(
+        Vole::SetRoute( "/" . substr(
             $_SERVER["REQUEST_URI"],
             1,
             strlen( $_SERVER["REQUEST_URI"] )

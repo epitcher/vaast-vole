@@ -44,11 +44,13 @@ class Vole extends \vole\BaseVole
                 )
             );
     }
+    //  @note Console execution problem begins here.
     private static function _run()
     {
         ob_start();
         ob_end_clean();
         ob_start();
+        //  @note This is why all actions must return String
         echo ( ( new Vole::$system->Config->core->router->class )
             ->Route() );
         ob_flush();
@@ -66,6 +68,7 @@ define("SCANDIR_DIR", 3);
 //DEV START
 function endln() { if( !VOLE_CONSOLE ) { echo "<br>"; } else { echo"\n"; } }
 function println($pre) { echo $pre; endln(); }
+function printarr( $pre ) { echo "<pre>" . print_r( $pre, TRUE ) . "</pre>"; endln(); }
 //DEV END
 
 /**
