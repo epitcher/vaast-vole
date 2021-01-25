@@ -1,18 +1,15 @@
 # Vole
 
-### PHP 5.6+ required due to use of "splat" operator
+### PHP 5.6+ required
 
-### *Vole is not currently a stable codebase, things are changing dramatically* Still feel free to fork Vole and make of it what you will, it is great to hack around with and make do exactly what you want. Vole is simple enough to be able to adapt with any level of PHP knowledge but intricate enough to get things done.
+### *Vole was a toy micro-framework I'm never touching again* Still feel free to fork Vole and make of it what you will, it is great to hack around with and make do exactly what you want. Vole is simple enough to be able to adapt with any level of PHP knowledge but intricate enough to get things done.
 
-Vole is heavily influenced by Yii 2, I appreciate the structual guidelines however no Yii 2 code is utilised. Vole is my personal take on how I want a PHP framework to work. No nonsense, straight VC framework with nothing attached.
-
-When I began writing Vole I intended on a MVC system, I have now decided that I don't want to add the models directly into the structure. I intend on releasing models as an extension to vole ( Configured in config/config.php or other main config ) as they are wholly required for majority uses of Vole.
-
+When I began writing Vole I intended on a MVC system, I have now decided that I don't want to add the models directly into the structure as any ORM will be a better use.
 - [x] Command line actions
-- [ ]  Model -> Controller -> View **( Dismissed as goal, Models will be extension )**
+- [ ]  Model -> Controller -> View **( Dismissed as goal, ORMs all the way )**
 - [x] Global objects ( Register in config )
 - [x] Pretty URL routing
-- [ ] Html templating ( ?? Moustache brackets  ?? )
+- [ ] Html templating **.. This is what PHP is for..**
 
 This repo contains a working Vole app, the original application structure wrapped around vole-core.
 ```
